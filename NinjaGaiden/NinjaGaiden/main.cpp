@@ -1,6 +1,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <Windows.h>
+#include "game.h"
 
 #define WINDOW_CLASS_NAME L"NinjaGaiden"
 #define MAIN_WINDOW_TITLE L"Ninja Gaiden"
@@ -8,7 +9,8 @@
 #define SCREEN_HEIGHT 540
 #define SCREEN_X GetSystemMetrics(SM_CXSCREEN)
 #define SCREEN_Y GetSystemMetrics(SM_CYSCREEN)
-
+void Update(float gameTime);
+void Draw(Cgame *gDevice, float gameTime);
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 	case WM_DESTROY:
@@ -64,8 +66,10 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 	return hWnd;
 }
-void run() {
+void run(HWND hWnd) {
 	MSG msg;
+	Cgame *gDevice = new Cgame();
+	gDevice->Init(hWnd);
 	while (true)
 	{
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -79,13 +83,29 @@ void run() {
 		else
 		{
 			//UPDATE and DRAW our game
+			Update(0.0f);
+
+			Draw(gDevice, 0.0f);
 		}
 	}
+	delete gDevice;
+
 }
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpStrCmdLine,int nShowCmd)
 {
 	HWND hWnd = CreateGameWindow(hInstance, nShowCmd, SCREEN_WIDTH, SCREEN_HEIGHT);
-	run();
+	run(hWnd);
 	
 	return 0;
+}
+void Update(float gameTime) {
+}
+void Draw(Cgame *gDevice, float gameTime) {
+	gDevice->Clear(D3DCOLOR_XRGB(0, 100, 100));
+	gDevice->Begin();
+
+	//Draw logic here.
+
+	gDevice->End();
+	gDevice->Present();
 }
