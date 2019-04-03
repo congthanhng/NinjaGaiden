@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Windows.h"
 #include "d3d9.h"
 #include "d3dx9.h"
@@ -12,16 +12,20 @@ private:
 	LPDIRECT3D9 d3d=NULL;
 	LPDIRECT3DDEVICE9 d3ddv=NULL;
 
+	LPDIRECT3DSURFACE9 backbuffer; //ve hinh anh len backbuffer
 
 public:
-	void Init(HWND hWnd);
-	void Clear(D3DCOLOR color);
+	void Init(HWND hWnd); //ham tap va thiet lap device va backbuffer
+
+	/*void Clear(D3DCOLOR color);
 	void Begin();
 	void End();
-	void Present();
+	void Present();*/
 
+	/*void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture);*/
 	Cgame();
 	void Release();
+	//LPDIRECT3DTEXTURE9 CreateImageFromFile(LPDIRECT3DDEVICE9 d3ddv, LPWSTR FilePath);
 	~Cgame();
 };
 
