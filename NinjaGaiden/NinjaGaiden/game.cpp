@@ -2,17 +2,19 @@
 
 
 void Cgame::Init(HWND hWnd) {
+
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
 	this->hWnd = hWnd;
 
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
 	d3dpp.Windowed = true; // fullscreen if false
-	/*d3dpp.BackBufferCount = 1;
-	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;*/
 
-	/*d3dpp.BackBufferHeight = 600;
-	d3dpp.BackBufferWidth = 800;*/
+	d3dpp.BackBufferCount = 1;
+	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+
+	d3dpp.BackBufferHeight = 600;
+	d3dpp.BackBufferWidth = 800;
 
 	d3dpp.hDeviceWindow = hWnd;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
@@ -25,6 +27,10 @@ void Cgame::Init(HWND hWnd) {
 		&d3dpp,
 		&d3ddv);
 
+	if (d3d == NULL) {
+		OutputDebugString(L"[ERROR] CreateDevice failed\n");
+		return;
+	}
 	
 }
 void Cgame::Clear(D3DCOLOR color) {
@@ -48,7 +54,10 @@ void Cgame::Present()
 Cgame::Cgame()
 {
 }
-
+void Cgame::Release() {
+	if (d3ddv != NULL) d3ddv->Release();
+	if (d3d != NULL) d3d->Release();
+}
 
 Cgame::~Cgame()
 {

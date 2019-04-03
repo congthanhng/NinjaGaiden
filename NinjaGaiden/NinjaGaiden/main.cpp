@@ -74,6 +74,7 @@ void run(HWND hWnd) {
 	{
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
+			if (msg.message == WM_QUIT) break;
 			TranslateMessage(&msg);
 
 			DispatchMessage(&msg);
@@ -83,9 +84,9 @@ void run(HWND hWnd) {
 		else
 		{
 			//UPDATE and DRAW our game
-			Update(0.0f);
+			/*Update(0.0f);
 
-			Draw(gDevice, 0.0f);
+			Draw(gDevice, 0.0f);*/
 		}
 	}
 	delete gDevice;
@@ -98,14 +99,14 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpStrCmdLin
 	
 	return 0;
 }
-void Update(float gameTime) {
-}
-void Draw(Cgame *gDevice, float gameTime) {
-	gDevice->Clear(D3DCOLOR_XRGB(0, 100, 100));
-	gDevice->Begin();
-
-	//Draw logic here.
-
-	gDevice->End();
-	gDevice->Present();
-}
+//void Update(float gameTime) {
+//}
+//void Draw(Cgame *gDevice, float gameTime) {
+//	gDevice->Clear(D3DCOLOR_XRGB(0, 100, 100));
+//	gDevice->Begin();
+//
+//	//Draw logic here.
+//
+//	gDevice->End();
+//	gDevice->Present();
+//}

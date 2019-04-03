@@ -19,7 +19,9 @@ public:
 	void Begin();
 	void End();
 	void Present();
+
 	Cgame();
+	void Release();
 	~Cgame();
 };
 
