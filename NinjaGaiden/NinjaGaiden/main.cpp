@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include "game.h"
 #include "GameObject.h"
+#include "Textures.h"
 
 #define WINDOW_CLASS_NAME L"NinjaGaiden"
 #define MAIN_WINDOW_TITLE L"Ninja Gaiden"
@@ -37,6 +38,9 @@ void Update(DWORD dt) {
 }
 
 void LoadResource() {
+	
+	CTextures *nijja = CTextures::GetInstance();
+	nijja->Add(10, TEXTURE_NINJA, BACKGROUND_COLOR);
 	ninja = new GameObject(TEXTURE_NINJA);
 	ninja->SetPosition(10.0f, 130.0f);
 }
@@ -46,11 +50,12 @@ void Render() {
 	LPDIRECT3DSURFACE9 backbuffer = game->GetBackBuffer();
 	LPD3DXSPRITE spritehandler = game->GetSpriteHandler();
 
-	d3ddv->Clear(0, 0, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 0, 0), 0, 0);
+	d3ddv->Clear(0, 0, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 0, 0), 0, 0); // clear screen before draw new
 
 	if (d3ddv->BeginScene())
 	{
 		d3ddv->ColorFill(backbuffer, NULL, BACKGROUND_COLOR);
+
 		spritehandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		ninja->Render();
