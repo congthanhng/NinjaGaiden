@@ -24,15 +24,9 @@ public:
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return this->backbuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
-	/*void Clear(D3DCOLOR color);
-	void Begin();
-	void End();
-	void Present();*/
-
-	/*void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture);*/
 	Cgame();
+
 	void Release();
-	//LPDIRECT3DTEXTURE9 CreateImageFromFile(LPDIRECT3DDEVICE9 d3ddv, LPWSTR FilePath);
 	~Cgame();
 };
 

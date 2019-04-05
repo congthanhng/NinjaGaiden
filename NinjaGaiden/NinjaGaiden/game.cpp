@@ -1,6 +1,8 @@
 #include "game.h"
 
 Cgame  *Cgame::_instance = NULL;
+
+/*khoi tao device de ve len do*/
 void Cgame::Init(HWND hWnd) {
 
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
@@ -23,6 +25,7 @@ void Cgame::Init(HWND hWnd) {
 	d3dpp.hDeviceWindow = hWnd;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 
+
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
@@ -35,62 +38,16 @@ void Cgame::Init(HWND hWnd) {
 		OutputDebugString(L"[ERROR] CreateDevice failed\n");
 		return;
 	}
-	
+	/* */
 	d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
+	/**/
 	D3DXCreateSprite(d3ddv, &spriteHandler);
 }
 void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture) {
 	D3DXVECTOR3 p(x, y, 0);
 	spriteHandler->Draw(texture, NULL, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 }
-//LPDIRECT3DTEXTURE9 Cgame::CreateImageFromFile(LPDIRECT3DDEVICE9 d3ddv, LPWSTR FilePath) {
-//	HRESULT result;
-//
-//	//LPDIRECT3DTEXTURE9 _Image;
-//	D3DXIMAGE_INFO info;
-//	result = D3DXGetImageInfoFromFile(FilePath, &info);
-//	result = D3DXCreateTextureFromFileEx(
-//		d3ddv,
-//		FilePath,
-//		info.Width,
-//		info.Height,
-//		1,
-//		D3DUSAGE_DYNAMIC,
-//		D3DFMT_UNKNOWN,
-//		D3DPOOL_DEFAULT,
-//		D3DX_DEFAULT,
-//		D3DX_DEFAULT,
-//		D3DCOLOR_XRGB(0, 0, 0),
-//		&info,
-//		NULL,
-//		&d3dtexture
-//	);
-//		if (result != D3D_OK)return;
-//	return d3dtexture;
-//}
-//void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture)
-//{
-//	D3DXVECTOR3 p(x, y, 0);
-//	spriteHandler->Draw(texture, NULL, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
-//}
-//void Cgame::Clear(D3DCOLOR color) {
-//	d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, color, 1.0f, 0);
-//}
-//void Cgame::Begin()
-//{
-//	d3ddv->BeginScene();
-//}
-//
-//void Cgame::End()
-//{
-//	d3ddv->EndScene();
-//}
-//
-//void Cgame::Present()
-//{
-//	//Present our scene to the window.
-//	d3ddv->Present(NULL, NULL, NULL, NULL);
-//}
+
 Cgame::Cgame()
 {
 }

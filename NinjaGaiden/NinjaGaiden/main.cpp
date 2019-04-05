@@ -35,11 +35,18 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 void Update(DWORD dt) {
 	ninja->Update(dt);
 }
+
+void LoadResource() {
+	ninja = new GameObject(TEXTURE_NINJA);
+	ninja->SetPosition(10.0f, 130.0f);
+}
 void Render() {
 
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
 	LPDIRECT3DSURFACE9 backbuffer = game->GetBackBuffer();
 	LPD3DXSPRITE spritehandler = game->GetSpriteHandler();
+
+	d3ddv->Clear(0, 0, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 0, 0), 0, 0);
 
 	if (d3ddv->BeginScene())
 	{
@@ -53,11 +60,9 @@ void Render() {
 	}
 	d3ddv->Present(NULL, NULL, NULL, NULL);
 }
-void LoadResource() {
-	ninja = new GameObject(TEXTURE_NINJA);
-	ninja->SetPosition(10.0f, 130.0f);
-}
+
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight) {
+	/* dinh danh cho man hinh*/
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);
 
@@ -74,21 +79,24 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 	wc.lpszClassName = WINDOW_CLASS_NAME;
 	wc.hIconSm = NULL;
 
+	/*dang ki cua so*/
 	RegisterClassEx(&wc);
 
+	/*Khoi tao cua so*/
 	HWND hWnd = CreateWindow(
-		WINDOW_CLASS_NAME,
-		MAIN_WINDOW_TITLE,
+		WINDOW_CLASS_NAME,	// ten cua so
+		MAIN_WINDOW_TITLE,	// ten hien thi
 		WS_OVERLAPPEDWINDOW, // WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
-		(SCREEN_X - SCREEN_WIDTH)/2,
-		(SCREEN_Y - SCREEN_HEIGHT)/2,
-		ScreenWidth,
+		(SCREEN_X - SCREEN_WIDTH)/2,	//toa do x de cua so nam giua man hinh
+		(SCREEN_Y - SCREEN_HEIGHT)/2,	// toa do y de cua so nam giua man hinh
+		ScreenWidth,	
 		ScreenHeight,
 		NULL,
 		NULL,
 		hInstance,
 		NULL);
 
+	/*kiem tra va ve cua so len*/
 	if (!hWnd)
 	{
 		OutputDebugString(L"[ERROR] CreateWindow failed");
@@ -101,7 +109,9 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 	return hWnd;
 }
-int Run()
+
+/*vong lap game*/
+int Run()	
 {
 	MSG msg;
 	int done = 0;
@@ -141,21 +151,10 @@ int Run()
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpStrCmdLine,int nShowCmd)
 {
 	HWND hWnd = CreateGameWindow(hInstance, nShowCmd, SCREEN_WIDTH, SCREEN_HEIGHT);
-	game = Cgame::GetInstance();
+	game = Cgame::GetInstance(); //mot singleton pattern de dam bao chi co mot game duy nhat
 	game->Init(hWnd);
 	LoadResource();
 	Run();
 	
 	return 0;
 }
-//void Update(float gameTime) {
-//}
-//void Draw(Cgame *gDevice, float gameTime) {
-//	gDevice->Clear(D3DCOLOR_XRGB(0, 100, 100));
-//	gDevice->Begin();
-//
-//	//Draw logic here.
-//
-//	gDevice->End();
-//	gDevice->Present();
-//}
