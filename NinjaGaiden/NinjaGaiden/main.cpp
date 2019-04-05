@@ -2,15 +2,26 @@
 #include <d3dx9.h>
 #include <Windows.h>
 #include "game.h"
+#include "GameObject.h"
 
 #define WINDOW_CLASS_NAME L"NinjaGaiden"
 #define MAIN_WINDOW_TITLE L"Ninja Gaiden"
+
 #define SCREEN_WIDTH 720
 #define SCREEN_HEIGHT 540
+
 #define SCREEN_X GetSystemMetrics(SM_CXSCREEN)
 #define SCREEN_Y GetSystemMetrics(SM_CYSCREEN)
-void Update(float gameTime);
-void Draw(Cgame *gDevice, float gameTime);
+
+#define TEXTURE_NINJA L"frame.png"
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 0, 0)
+#define MAX_FRAME_RATE 10
+
+Cgame * game;
+GameObject *ninja;
+
+
+
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 	case WM_DESTROY:
@@ -21,7 +32,31 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	}
 	return 0;
 }
+void Update(DWORD dt) {
+	ninja->Update(dt);
+}
+void Render() {
 
+	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
+	LPDIRECT3DSURFACE9 backbuffer = game->GetBackBuffer();
+	LPD3DXSPRITE spritehandler = game->GetSpriteHandler();
+
+	if (d3ddv->BeginScene())
+	{
+		d3ddv->ColorFill(backbuffer, NULL, BACKGROUND_COLOR);
+		spritehandler->Begin(D3DXSPRITE_ALPHABLEND);
+
+		ninja->Render();
+
+		spritehandler->End();
+		d3ddv->EndScene();
+	}
+	d3ddv->Present(NULL, NULL, NULL, NULL);
+}
+void LoadResource() {
+	ninja = new GameObject(TEXTURE_NINJA);
+	ninja->SetPosition(10.0f, 130.0f);
+}
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight) {
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);
@@ -66,36 +101,50 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 	return hWnd;
 }
-void run(HWND hWnd) {
+int Run()
+{
 	MSG msg;
-	Cgame *gDevice = new Cgame();
-	gDevice->Init(hWnd);
-	while (true)
-	{
-		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			if (msg.message == WM_QUIT) break;
-			TranslateMessage(&msg);
+	int done = 0;
+	DWORD frameStart = GetTickCount();
+	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
 
+	while (!done)
+	{
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			if (msg.message == WM_QUIT) done = 1;
+
+			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
 
-		if (msg.message == WM_QUIT) break;
-		else
+		DWORD now = GetTickCount();
+
+		// dt: the time between (beginning of last frame) and now
+		// this frame: the frame we are about to render
+		DWORD dt = now - frameStart;
+
+		if (dt >= tickPerFrame)
 		{
-			//UPDATE and DRAW our game
-			/*Update(0.0f);
-
-			Draw(gDevice, 0.0f);*/
+			frameStart = now;
+			Update(dt);
+			Render();
 		}
+		else
+			Sleep(tickPerFrame - dt);
 	}
-	delete gDevice;
 
+	return 1;
 }
+
+
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpStrCmdLine,int nShowCmd)
 {
 	HWND hWnd = CreateGameWindow(hInstance, nShowCmd, SCREEN_WIDTH, SCREEN_HEIGHT);
-	run(hWnd);
+	game = Cgame::GetInstance();
+	game->Init(hWnd);
+	LoadResource();
+	Run();
 	
 	return 0;
 }

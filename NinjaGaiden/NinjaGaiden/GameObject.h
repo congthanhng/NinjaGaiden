@@ -1,8 +1,25 @@
-#pragma once
+#pragma on
+#include <Windows.h>
+#include <d3dx9.h>
+
 class GameObject
 {
+protected:
+	float x;
+	float y;
+	LPDIRECT3DTEXTURE9 texture;
+
 public:
-	GameObject();
+	void SetPosition(float x, float y) { this->x = x; this->y = y; }
+	
+	GameObject(LPCWSTR texturePath);
+	void Update(DWORD dt);
+	void Render();
 	~GameObject();
 };
 
+class CNinja : public GameObject {
+public:
+	CNinja(LPCWSTR texturePath) : GameObject(texturePath) {};
+	void Update(DWORD dt);
+};

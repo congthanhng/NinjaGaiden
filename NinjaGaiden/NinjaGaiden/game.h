@@ -13,9 +13,16 @@ private:
 	LPDIRECT3DDEVICE9 d3ddv=NULL;
 
 	LPDIRECT3DSURFACE9 backbuffer; //ve hinh anh len backbuffer
+	LPD3DXSPRITE spriteHandler;
 
 public:
 	void Init(HWND hWnd); //ham tap va thiet lap device va backbuffer
+	static Cgame *GetInstance();
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture);
+
+	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
+	LPDIRECT3DSURFACE9 GetBackBuffer() { return this->backbuffer; }
+	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
 	/*void Clear(D3DCOLOR color);
 	void Begin();

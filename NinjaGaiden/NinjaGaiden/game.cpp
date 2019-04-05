@@ -1,6 +1,6 @@
 #include "game.h"
 
-
+Cgame  *Cgame::_instance = NULL;
 void Cgame::Init(HWND hWnd) {
 
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
@@ -37,6 +37,11 @@ void Cgame::Init(HWND hWnd) {
 	}
 	
 	d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
+	D3DXCreateSprite(d3ddv, &spriteHandler);
+}
+void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture) {
+	D3DXVECTOR3 p(x, y, 0);
+	spriteHandler->Draw(texture, NULL, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 }
 //LPDIRECT3DTEXTURE9 Cgame::CreateImageFromFile(LPDIRECT3DDEVICE9 d3ddv, LPWSTR FilePath) {
 //	HRESULT result;
@@ -93,10 +98,16 @@ void Cgame::Release() {
 	if (d3ddv != NULL) d3ddv->Release();
 	if (d3d != NULL) d3d->Release();
 }
+Cgame *Cgame::GetInstance() {
+	if (_instance == NULL) _instance = new Cgame();
+	return _instance;
+}
 
 Cgame::~Cgame()
 {
 	if (d3ddv != NULL) d3ddv->Release();
 	if (d3d != NULL) d3d->Release();
+	if (spriteHandler != NULL) spriteHandler->Release();
+	if (backbuffer != NULL)backbuffer->Release();
 
 }
