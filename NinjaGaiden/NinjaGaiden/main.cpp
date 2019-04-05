@@ -1,22 +1,26 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <Windows.h>
+
 #include "game.h"
 #include "GameObject.h"
 #include "Textures.h"
+#include "Sprites.h"
 
 #define WINDOW_CLASS_NAME L"NinjaGaiden"
 #define MAIN_WINDOW_TITLE L"Ninja Gaiden"
 
-#define SCREEN_WIDTH 720
+#define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 540
 
 #define SCREEN_X GetSystemMetrics(SM_CXSCREEN)
 #define SCREEN_Y GetSystemMetrics(SM_CYSCREEN)
 
-#define TEXTURE_NINJA L"frame.png"
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 0, 0)
-#define MAX_FRAME_RATE 10
+#define TEXTURE_NINJA L"RyuHayabusa.png"
+#define TRANSPARENT_COLOR D3DCOLOR_XRGB(255, 163, 177)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(255,0,0)
+#define MAX_FRAME_RATE 60
+#define ID_TEXT_NINJA 10
 
 Cgame * game;
 GameObject *ninja;
@@ -39,10 +43,44 @@ void Update(DWORD dt) {
 
 void LoadResource() {
 	
-	CTextures *nijja = CTextures::GetInstance();
-	nijja->Add(10, TEXTURE_NINJA, BACKGROUND_COLOR);
-	ninja = new GameObject(TEXTURE_NINJA);
-	ninja->SetPosition(10.0f, 130.0f);
+	CTextures *Textures = CTextures::GetInstance();
+	Textures->Add(ID_TEXT_NINJA, TEXTURE_NINJA, TRANSPARENT_COLOR);
+	CSprites * sprites = CSprites::GetInstance();
+	CAnimations * animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texture_Ninja = Textures->get(ID_TEXT_NINJA);
+
+	sprites->add(10001, 339, 6, 359, 37, texture_Ninja);
+	sprites->add(10002, 368, 6, 390, 37, texture_Ninja);
+	sprites->add(10003, 400, 6, 420, 37, texture_Ninja);
+
+	sprites->add(10011, 186, 154, 199, 181, texture_Ninja);
+	sprites->add(10012, 155, 154, 170, 181, texture_Ninja);
+	sprites->add(10013, 125, 154, 140, 181, texture_Ninja);
+
+	/*ninja = new GameObject(TEXTURE_NINJA);
+	ninja->SetPosition(10.0f, 130.0f);*/
+	LPANIMATION ani;
+
+	ani = new CAnimation(100);
+	ani->add(10001);
+	ani->add(10002);
+	ani->add(10003);
+	animations->Add(500, ani);
+
+	ani = new CAnimation(100);
+	ani->add(10011);
+	ani->add(10012);
+	ani->add(10013);
+	animations->Add(501, ani);
+
+	ninja = new GameObject();
+	ninja->AddAnimation(500);
+	ninja->AddAnimation(501);
+	//ninja->AddAnimation(510);
+
+
+	ninja->SetPosition(10.0f, 250.0f);
 }
 void Render() {
 
@@ -50,7 +88,7 @@ void Render() {
 	LPDIRECT3DSURFACE9 backbuffer = game->GetBackBuffer();
 	LPD3DXSPRITE spritehandler = game->GetSpriteHandler();
 
-	d3ddv->Clear(0, 0, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 0, 0), 0, 0); // clear screen before draw new
+
 
 	if (d3ddv->BeginScene())
 	{

@@ -1,47 +1,31 @@
 #include <d3dx9.h>
-#include <d3d.h>
-#include "game.h"
+
+#include "Game.h"
 #include "GameObject.h"
+#include "Sprites.h"
 
-
-GameObject::GameObject(LPCWSTR texturePath)
+GameObject::GameObject()
 {
 	x = y = 0;
-	
-	D3DXIMAGE_INFO info;
-
-	HRESULT result = D3DXGetImageInfoFromFile(texturePath, &info);
-	if (result != D3D_OK) {
-		return;
-	}
-
-	LPDIRECT3DDEVICE9 d3ddv = Cgame::GetInstance()->GetDirect3DDevice();
-	result = D3DXCreateTextureFromFileEx(
-		d3ddv,
-		texturePath,
-		info.Width,
-		info.Height,
-		1,
-		D3DUSAGE_DYNAMIC,
-		D3DFMT_UNKNOWN,
-		D3DPOOL_DEFAULT,
-		D3DX_DEFAULT,
-		D3DX_DEFAULT,
-		D3DCOLOR_XRGB(0, 0, 0),
-		&info,
-		NULL,
-		&texture
-	);
+	vx = 0.07f;
 
 };
 void GameObject::Update(DWORD dt) {
-
+	x += vx * dt;
+	if ((vx>0 && x > 290) || (x < 0 && vx<0)) vx = -vx;
 }
 void GameObject::Render() {
-	Cgame::GetInstance()->Draw(x, y, texture);
+	LPANIMATION ani;
+	if (vx>0) ani = animations[0]; else ani = animations[1];
+	//ani = animations[0];
+	ani->Render(x, y);
 }
-
+void GameObject::AddAnimation(int aniId)
+{
+	LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
+	animations.push_back(ani);
+}
 GameObject::~GameObject()
 {
-	if (texture != NULL) texture->Release();
+	
 };

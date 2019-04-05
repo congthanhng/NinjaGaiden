@@ -20,6 +20,8 @@ public:
 	static Cgame *GetInstance();
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture);
 
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom);
+
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return this->backbuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
