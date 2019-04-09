@@ -94,6 +94,7 @@ void Render() {
 	{
 		d3ddv->ColorFill(backbuffer, NULL, BACKGROUND_COLOR);
 
+
 		spritehandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		ninja->Render();
