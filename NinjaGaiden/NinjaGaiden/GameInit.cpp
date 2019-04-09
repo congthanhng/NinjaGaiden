@@ -71,6 +71,41 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmtShow, int ScreenWidth, int Sc
 	UpdateWindow(hWnd);
 
 	return hWnd;
+
+}
+void GameInit::CreateGameDevice() {
+
+	d3d = Direct3DCreate9(D3D_SDK_VERSION);
+
+	D3DPRESENT_PARAMETERS d3dpp;
+
+	ZeroMemory(&d3dpp, sizeof(d3dpp));
+
+	d3dpp.Windowed = TRUE;
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	d3dpp.hDeviceWindow = this->hWnd;
+	/*d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+	d3dpp.BackBufferCount = 1;*/
+
+	//RECT r;
+	//GetClientRect(hWnd, &r);	// retrieve Window width & height 
+
+	//d3dpp.BackBufferHeight = r.bottom + 1;
+	//d3dpp.BackBufferWidth = r.right + 1;
+
+	d3d->CreateDevice(
+		D3DADAPTER_DEFAULT,
+		D3DDEVTYPE_HAL,
+		hWnd,
+		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+		&d3dpp,
+		&d3ddv);
+
+	if (d3ddv == NULL)
+	{
+		OutputDebugString(L"[ERROR] CreateDevice failed\n");
+		return;
+	}
 }
 void run() {
 	MSG msg;
@@ -93,13 +128,16 @@ void run() {
 
 GameInit::GameInit(HINSTANCE hInstance, int nCmtShow, int ScreenWidth, int ScreenHeigh)
 {
-	this->hWnd = CreateGameWindow(hInstance, nCmtShow, ScreenWidth, ScreenHeigh);
+	this->hWnd = CreateGameWindow(hInstance, nCmtShow, ScreenWidth, ScreenHeigh); //create window game
+	CreateGameDevice();
 	run();
 }
 
 
 GameInit::~GameInit()
 {
+	if (d3d) d3d->Release();
+	if (d3ddv)d3ddv->Release();
 }
 
 
