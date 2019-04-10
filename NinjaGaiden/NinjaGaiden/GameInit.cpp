@@ -19,6 +19,13 @@
 //	}
 //	return 0;
 //}
+
+GameInit *GameInit::_Instance = NULL;
+GameInit *GameInit::GetInstance() {
+	if (!_Instance) _Instance = new	GameInit();
+	return _Instance;
+}
+
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 	case WM_DESTROY:
@@ -30,7 +37,8 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	return 0;
 }
 
-HWND CreateGameWindow(HINSTANCE hInstance, int nCmtShow, int ScreenWidth, int ScreenHeigh) {
+HWND GameInit::CreateGameWindow(HINSTANCE hInstance, int nCmtShow, int ScreenWidth, int ScreenHeigh) {
+
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);
 
@@ -69,13 +77,13 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmtShow, int ScreenWidth, int Sc
 
 	ShowWindow(hWnd, nCmtShow);
 	UpdateWindow(hWnd);
-
+	/*this->hWnd = hWnd;*/
 	return hWnd;
 
 }
-void GameInit::CreateGameDevice() {
+void GameInit::CreateGameDevice(HWND hWnd) {
 
-	d3d = Direct3DCreate9(D3D_SDK_VERSION);
+	LPDIRECT3D9 d3dd = Direct3DCreate9(D3D_SDK_VERSION);
 
 	D3DPRESENT_PARAMETERS d3dpp;
 
@@ -83,7 +91,7 @@ void GameInit::CreateGameDevice() {
 
 	d3dpp.Windowed = TRUE;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.hDeviceWindow = this->hWnd;
+	d3dpp.hDeviceWindow = hWnd;
 
 	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
 	d3dpp.BackBufferCount = 1;
@@ -94,7 +102,7 @@ void GameInit::CreateGameDevice() {
 	d3dpp.BackBufferHeight = r.bottom + 1;
 	d3dpp.BackBufferWidth = r.right + 1;
 
-	d3d->CreateDevice(
+	d3dd->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
 		hWnd,
@@ -110,30 +118,15 @@ void GameInit::CreateGameDevice() {
 
 	d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer); // get backbuffe
 }
-void run() {
-	MSG msg;
-	while (true)
-	{
-		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
 
-			DispatchMessage(&msg);
-		}
 
-		if (msg.message == WM_QUIT) break;
-		else
-		{
-			//UPDATE and DRAW our game
-		}
-	}
+LPDIRECT3DDEVICE9 GameInit::GetDirectxDevice() {
+	return this->d3ddv;
 }
 
-GameInit::GameInit(HINSTANCE hInstance, int nCmtShow, int ScreenWidth, int ScreenHeigh)
-{
-	this->hWnd = CreateGameWindow(hInstance, nCmtShow, ScreenWidth, ScreenHeigh); //create window game
-	CreateGameDevice(); // create and load 3D lib
-	run();
+GameInit::GameInit()
+{	
+	
 }
 
 

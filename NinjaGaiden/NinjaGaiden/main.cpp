@@ -9,6 +9,7 @@
 #define SCREEN_HEIGHT 540
 //#define SCREEN_X GetSystemMetrics(SM_CXSCREEN)
 //#define SCREEN_Y GetSystemMetrics(SM_CYSCREEN)
+GameInit *gameinit;
 
 //LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 //	switch (message) {
@@ -83,11 +84,32 @@
 //		}
 //	}
 //}
+void run() {
+	MSG msg;
+	while (true)
+	{
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+
+			DispatchMessage(&msg);
+		}
+
+		if (msg.message == WM_QUIT) break;
+		else
+		{
+			//UPDATE and DRAW our game
+		}
+	}
+}
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpStrCmdLine,int nShowCmd)
 {
 	/*HWND hWnd = CreateGameWindow(hInstance, nShowCmd, SCREEN_WIDTH, SCREEN_HEIGHT);
 	run();*/
-	GameInit CreateGame(hInstance, nShowCmd, SCREEN_WIDTH, SCREEN_HEIGHT);
+	
+	HWND hWnd=gameinit->CreateGameWindow( hInstance, nShowCmd, SCREEN_WIDTH, SCREEN_HEIGHT);
+	gameinit->CreateGameDevice(hWnd);
+	run();
 	
 	return 0;
 }
