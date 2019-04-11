@@ -6,6 +6,7 @@
 class Cgame
 {
 private:
+
 	static Cgame *_instance;
 	HWND hWnd;
 
@@ -16,7 +17,8 @@ private:
 	LPD3DXSPRITE spriteHandler;
 
 public:
-	void Init(HWND hWnd); //ham tap va thiet lap device va backbuffer
+
+	void Init(HWND hWnd); //ham tao va thiet lap device va backbuffer
 	static Cgame *GetInstance();
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture);
 

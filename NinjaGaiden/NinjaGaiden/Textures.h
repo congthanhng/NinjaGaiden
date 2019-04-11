@@ -7,6 +7,7 @@ class CTextures
 {
 	static CTextures *_Instance;
 	unordered_map<int, LPDIRECT3DTEXTURE9> textures;
+
 public:
 	CTextures();
 

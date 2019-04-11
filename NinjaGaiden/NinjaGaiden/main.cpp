@@ -25,8 +25,6 @@
 Cgame * game;
 GameObject *ninja;
 
-
-
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 	case WM_DESTROY:
