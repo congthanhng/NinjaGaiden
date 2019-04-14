@@ -9,15 +9,15 @@ class GameObject
 {
 	float x;
 	float y;
-	float vx;
-	int currentState;
-	int nx;
+	float vx; //vector di chuyen
+	int currentState; // trang thai hien tai
+	int nx; //huong di chuyen, trai or phai ( phai = 1, trai = -1) neu -1 thi lat hinh nguoc lai
 	vector<LPANIMATION> animations;
 
 public:
-	void SetPosition(float x, float y) { this->x = x, this->y = y; }
-	void SetState(int state) { this->currentState = state; }
-	void AddAnimation(int aniId);
+	void SetPosition(float x, float y) { this->x = x, this->y = y; } //set vi tri nhan vat
+	void SetState(int state) { this->currentState = state; } // thiet lap trang thai nhan vat
+	void AddAnimation(int aniId); //
 
 	GameObject(int nx);
 
