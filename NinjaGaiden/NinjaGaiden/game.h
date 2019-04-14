@@ -5,12 +5,14 @@
 #include <dinput.h>
 
 #define KEYBOARD_BUFFER_SIZE 1024
+#define DIRECTINPUT_VERSION 0x0800
 /*cac su kien nhan phim, chia lam 3 giai doan*/
 class CKeyEventHandler 
 {
+public:
 	virtual void KeyState(BYTE *state) = 0;   //key dang duoc giu
 	virtual void OnKeyDown(int keycode) = 0; //sau khi bat dau nhan xuong
-	virtual void OnKeyUP(int keycode) = 0; // sau khi tha ra
+	virtual void OnKeyUp(int keycode) = 0; // sau khi tha ra
 };
 typedef CKeyEventHandler * LPKEYEVENTHANDLER;
 
@@ -32,7 +34,7 @@ private:
 	LPDIRECTINPUTDEVICE8 didv; // The keyboard device 
 
 	BYTE keyStates[256]; // DirectInput keyboard state buffer 
-	DIDEVICEOBJECTDATA keyEvent[KEYBOARD_BUFFER_SIZE]; //Buffered keyboard data
+	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE]; //Buffered keyboard data
 	LPKEYEVENTHANDLER keyHandler;
 
 public:
