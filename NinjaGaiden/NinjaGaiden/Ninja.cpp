@@ -2,6 +2,6 @@
 
 
 
-//void CNinja::Update(DWORD dt) {
-//	GameObject::Update(dt);
-//}
+void CNinja::Update(DWORD dt) {
+	GameObject::Update(dt);	
+}
