@@ -1,4 +1,4 @@
-#pragma on
+#pragma once
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
@@ -11,7 +11,7 @@ class GameObject
 	float y;
 	float vx;
 	int currentState;
-
+	int nx;
 	vector<LPANIMATION> animations;
 
 public:
@@ -19,7 +19,7 @@ public:
 	void SetState(int state) { this->currentState = state; }
 	void AddAnimation(int aniId);
 
-	GameObject();
+	GameObject(int nx);
 
 	void Update(DWORD dt);
 	void Render();

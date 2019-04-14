@@ -81,7 +81,7 @@ void LoadResource() {
 	ani->add(10013);
 	animations->Add(501, ani);
 
-	ninja = new GameObject();
+	ninja = new GameObject(0.07f);
 	ninja->AddAnimation(500);
 	/*ninja->AddAnimation(501);*/
 	//ninja->AddAnimation(510);

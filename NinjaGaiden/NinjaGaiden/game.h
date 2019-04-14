@@ -20,7 +20,7 @@ public:
 
 	void Init(HWND hWnd); //ham tao va thiet lap device va backbuffer
 	static Cgame *GetInstance();
-	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture);
+	
 
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int vt);
 
