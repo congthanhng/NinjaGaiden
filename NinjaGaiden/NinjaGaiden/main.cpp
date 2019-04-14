@@ -13,9 +13,9 @@
 #define SCREEN_X GetSystemMetrics(SM_CXSCREEN)
 #define SCREEN_Y GetSystemMetrics(SM_CYSCREEN)
 
-#define TEXTURE_NINJA L"frame.png"
+#define TEXTURE_NINJA L"ninja.png"
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 0, 0)
-#define MAX_FRAME_RATE 10
+#define MAX_FRAME_RATE 60
 
 Cgame * game;
 GameObject *ninja;
@@ -32,6 +32,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	}
 	return 0;
 }
+
 void Update(DWORD dt) {
 	ninja->Update(dt);
 }

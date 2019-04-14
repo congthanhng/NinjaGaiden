@@ -32,7 +32,7 @@ public:
 	/*void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture);*/
 	Cgame();
 	void Release();
-	//LPDIRECT3DTEXTURE9 CreateImageFromFile(LPDIRECT3DDEVICE9 d3ddv, LPWSTR FilePath);
+	
 	~Cgame();
 };
 
