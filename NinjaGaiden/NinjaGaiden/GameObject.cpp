@@ -15,11 +15,13 @@ void GameObject::Update(DWORD dt) {
 	if ((vx>0 && x > 290) || (x < 0 && vx<0)) vx = -vx;
 }
 void GameObject::Render() {
-
-	LPANIMATION ani;
-	if (vx>0) ani = animations[0]; else ani = animations[1];
+	LPANIMATION ani=animations[0];
+	/*if (vx > 0) {
+		ani = animations[0];
+	}
+	else ani = animations[1];*/
 	//ani = animations[0];
-	ani->Render(x, y);
+	ani->Render(x, y,vx);
 }
 void GameObject::AddAnimation(int aniId)
 {

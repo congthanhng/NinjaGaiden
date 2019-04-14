@@ -1,9 +1,11 @@
-#include "game.h"
+﻿#include "game.h"
 
 Cgame  *Cgame::_instance = NULL;
 
 /*khoi tao device de ve len do*/
 void Cgame::Init(HWND hWnd) {
+
+	/*dinh danh cho device*/
 
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
@@ -25,7 +27,7 @@ void Cgame::Init(HWND hWnd) {
 	d3dpp.hDeviceWindow = hWnd;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 
-
+	/*khoi tao device*/
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
@@ -38,36 +40,54 @@ void Cgame::Init(HWND hWnd) {
 		OutputDebugString(L"[ERROR] CreateDevice failed\n");
 		return;
 	}
+
 	/* */
 	d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
-	/**/
+
+	/*khoi tao ve sprite*/
 	D3DXCreateSprite(d3ddv, &spriteHandler);
 
 }
-void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture) {
-	D3DXVECTOR3 p(x, y, 0);
-	spriteHandler->Draw(texture, NULL, NULL, &p, D3DCOLOR_XRGB(255, 163, 177));
-	
-}
-void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom)
+//void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture) {
+//	D3DXVECTOR3 p(x, y, 0);
+//	spriteHandler->Draw(texture, NULL, NULL, &p, D3DCOLOR_XRGB(255, 163, 177));
+//	
+//}
+void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int vx)
 {
-	
+	D3DXVECTOR3 p(x, y, 0);
 	RECT r;
 	r.left = left;
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
 
-	D3DXVECTOR3 p(x+(right-left)/2, y+(bottom-top)/2, 0);
+	if (vx<0){
 
-	/*D3DXMATRIX combined;
-	D3DXMATRIX matScale;
-	D3DXMatrixIdentity(&combined);
-	D3DXMatrixScaling(&matScale, -1.0f, 0.0f, .0f);
-	combined *= matScale;
-	spriteHandler->SetTransform(&combined);*/
-	/*D3DXMatrixTransformation()
-	spriteHandler->SetTransform(&matScale);*/
+		D3DXMATRIX oldMatrix;
+		spriteHandler->GetTransform(&oldMatrix);
+
+		// khai báo ma trận mặc định
+		D3DXMATRIX matCombined;
+		// khởi tạo ma trận mặc định.
+		D3DXMatrixIdentity(&matCombined);
+
+		D3DXMATRIX matScale;
+		D3DXMATRIX matTranslate;
+
+		D3DXMatrixScaling(&matScale, -1.0f, 1.0f, .0f);
+		matCombined *= matScale;
+		D3DXMatrixTranslation(&matTranslate, x * 2 + (right - left), 0, 0.0f);
+		matCombined *= matTranslate;
+
+		//D3DXVECTOR3 center((float)(right-left) / 2,(float)(bottom-top) / 2, 0);
+		spriteHandler->SetTransform(&matCombined);
+		spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
+
+		spriteHandler->SetTransform(&oldMatrix);
+		return;
+	}
+	else
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB(255, 163, 177));
 	
 }

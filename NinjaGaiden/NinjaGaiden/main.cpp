@@ -35,36 +35,45 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	}
 	return 0;
 }
+
 void Update(DWORD dt) {
 	ninja->Update(dt);
 }
 
+#pragma region LoadResource
 void LoadResource() {
 	
 	CTextures *Textures = CTextures::GetInstance();
-	Textures->Add(ID_TEXT_NINJA, TEXTURE_NINJA, TRANSPARENT_COLOR);
+
+	Textures->Add(ID_TEXT_NINJA, TEXTURE_NINJA, TRANSPARENT_COLOR); //them vao danh sach cac texture
+
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 
 	LPDIRECT3DTEXTURE9 texture_Ninja = Textures->get(ID_TEXT_NINJA);
 
+	/*xac dinh cac frame cua texture*/
+#pragma region run
 	sprites->add(10001, 339, 6, 359, 37, texture_Ninja);
 	sprites->add(10002, 368, 6, 390, 37, texture_Ninja);
 	sprites->add(10003, 400, 6, 420, 37, texture_Ninja);
+#pragma endregion
 
-	sprites->add(10011, 186, 154, 199, 181, texture_Ninja);
+	/*sprites->add(10011, 186, 154, 199, 181, texture_Ninja);
 	sprites->add(10012, 155, 154, 170, 181, texture_Ninja);
-	sprites->add(10013, 125, 154, 140, 181, texture_Ninja);
+	sprites->add(10013, 125, 154, 140, 181, texture_Ninja);*/
 
 	/*ninja = new GameObject(TEXTURE_NINJA);
 	ninja->SetPosition(10.0f, 130.0f);*/
+	//add sprite to animations
 	LPANIMATION ani;
-
+#pragma region run
 	ani = new CAnimation(100);
 	ani->add(10001);
 	ani->add(10002);
 	ani->add(10003);
 	animations->Add(500, ani);
+#pragma endregion
 
 	ani = new CAnimation(100);
 	ani->add(10011);
@@ -74,12 +83,14 @@ void LoadResource() {
 
 	ninja = new GameObject();
 	ninja->AddAnimation(500);
-	ninja->AddAnimation(501);
+	/*ninja->AddAnimation(501);*/
 	//ninja->AddAnimation(510);
 
 
 	ninja->SetPosition(10.0f, 250.0f);
 }
+#pragma endregion
+
 void Render() {
 
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
@@ -92,12 +103,12 @@ void Render() {
 	{
 		d3ddv->ColorFill(backbuffer, NULL, BACKGROUND_COLOR);
 
-
 		spritehandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		ninja->Render();
 
 		spritehandler->End();
+
 		d3ddv->EndScene();
 	}
 	d3ddv->Present(NULL, NULL, NULL, NULL);

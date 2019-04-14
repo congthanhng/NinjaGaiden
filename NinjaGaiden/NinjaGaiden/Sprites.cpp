@@ -2,17 +2,17 @@
 #include "Game.h"
 
 
-CSprite::CSprite(int id, int x_sprite, int y_sprite, int width_sprite, int heigh_sprite, LPDIRECT3DTEXTURE9 texture) {
+CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 texture) {
 	this->id = id;
-	this->x_sprite = x_sprite;
-	this->y_sprite = y_sprite;
-	this->width_sprite = width_sprite;
-	this->heigh_sprite = heigh_sprite;
+	this->left = left;
+	this->top = top;
+	this->right = right;
+	this->bottom = bottom;
 	this->texture = texture;
 }
-void CSprite::Draw(float x,float y){
+void CSprite::Draw(float x,float y,float vx){
 	Cgame *game = Cgame::GetInstance();
-	game->Draw(x, y, texture, x_sprite, y_sprite, width_sprite, heigh_sprite);
+	game->Draw(x, y, texture, left, top, right, bottom,vx);
 }
 CSprites *CSprites::_Instance = NULL;
 
@@ -42,7 +42,7 @@ void CAnimation::add(int spriteId, DWORD time)
 	frames.push_back(frame);
 }
 
-void CAnimation::Render(float x, float y)
+void CAnimation::Render(float x, float y,float vx)
 {
 	DWORD now = GetTickCount();
 	if (currentFrame == -1)
@@ -63,7 +63,7 @@ void CAnimation::Render(float x, float y)
 
 	}
 
-	frames[currentFrame]->getSprite()->Draw(x, y);
+	frames[currentFrame]->getSprite()->Draw(x, y,vx);
 }
 
 CAnimations * CAnimations::__instance = NULL;

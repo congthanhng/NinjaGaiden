@@ -7,16 +7,16 @@ using namespace std;
 
 class CSprite{
 	int id;
-	int x_sprite;
-	int y_sprite;
-	int width_sprite;
-	int heigh_sprite;
+	int left;
+	int top;
+	int right;
+	int bottom;
 
 	LPDIRECT3DTEXTURE9 texture;
 
 public:
-	CSprite(int id,int x_sprite, int y_sprite, int width_sprite, int heigh_sprite,LPDIRECT3DTEXTURE9 texture);
-	void Draw(float x, float y);
+	CSprite(int id,int left, int top, int right, int bottom,LPDIRECT3DTEXTURE9 texture);
+	void Draw(float x, float y,float vx);
 
 };
 typedef CSprite* LPSprite;
@@ -29,7 +29,7 @@ class CSprites
 
 public:
 
-	void add(int id, int x_sprite, int y_sprite, int width_sprite, int heigh_sprite, LPDIRECT3DTEXTURE9 texture);
+	void add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 texture);
 	LPSprite get(int id);
 
 	static CSprites * GetInstance();
@@ -57,7 +57,7 @@ class CAnimation {
 public:
 	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 	void add(int spriteId, DWORD time = 0);
-	void Render(float x, float y);
+	void Render(float x, float y,float vx);
 };
 typedef CAnimation *LPANIMATION;
 
