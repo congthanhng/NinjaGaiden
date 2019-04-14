@@ -93,10 +93,12 @@ void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	
 }
 
+/*check key duoc nhan chua*/
 int Cgame::IsKeyDown(int KeyCode)
 {
 	return (keyStates[KeyCode] & 0x80) > 0;
 }
+
 void Cgame::InitKeyboard(LPKEYEVENTHANDLER handler) {
 	/*khoi tao direct input*/
 	HRESULT hr = DirectInput8Create(
