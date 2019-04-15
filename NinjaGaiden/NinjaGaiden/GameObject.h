@@ -8,6 +8,7 @@ using namespace std;
 
 class GameObject
 {
+protected:
 	float x;
 	float y;
 

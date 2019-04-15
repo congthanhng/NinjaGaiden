@@ -25,6 +25,14 @@
 Cgame * game;
 GameObject *ninja;
 
+class CSampleKeyHandler : public CKeyEventHandler {
+	virtual void KeyState(BYTE *states);
+	virtual void OnKeyDown(int KeyCode);
+	virtual void OnKeyUp(int KeyCode);
+};
+
+CSampleKeyHandler * keyHandler;
+
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 	case WM_DESTROY:

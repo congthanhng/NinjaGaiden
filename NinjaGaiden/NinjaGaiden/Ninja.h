@@ -2,8 +2,8 @@
 #include "GameObject.h"
 
 #define NINJA_WALKING_SPEED		0.1f
-#define NINJA_JUMP_SPEED		0.5f
-#define MARIO_GRAVITY			0.1f
+#define NINJA_JUMP_SPEED_Y		0.5f
+#define NINJA_GRAVITY			0.1f
 
 #define NINJA_STATE_IDLE			0
 #define NINJA_STATE_WALKING_RIGHT	1
