@@ -3,7 +3,9 @@
 
 
 void CNinja::Update(DWORD dt) {
+
 	GameObject::Update(dt);	
+
 	vy += NINJA_GRAVITY;
 	if (y > 100) {
 		vy = 0; y = 100.0f;

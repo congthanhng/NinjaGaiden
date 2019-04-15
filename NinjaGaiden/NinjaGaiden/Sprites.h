@@ -7,6 +7,7 @@ using namespace std;
 
 class CSprite{
 	int id;
+
 	int left;
 	int top;
 	int right;

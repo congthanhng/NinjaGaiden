@@ -31,7 +31,7 @@ public:
 
 	static void AddAnimation(int aniId); //
 
-	GameObject(int nx);
+	GameObject();
 
 	void Update(DWORD dt);
 	void Render();

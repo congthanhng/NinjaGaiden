@@ -24,7 +24,7 @@
 #define ID_TEXT_NINJA 10
 
 Cgame * game;
-GameObject *ninja;
+CNinja *ninja;
 
 class CSampleKeyHandler : public CKeyEventHandler {
 	virtual void KeyState(BYTE *states);
@@ -82,9 +82,18 @@ void LoadResource() {
 
 	/*xac dinh cac frame cua texture*/
 #pragma region run
-	sprites->add(10001, 339, 6, 359, 37, texture_Ninja);
-	sprites->add(10002, 368, 6, 390, 37, texture_Ninja);
-	sprites->add(10003, 400, 6, 420, 37, texture_Ninja);
+	sprites->add(1, 339, 6, 359, 37, texture_Ninja);
+	sprites->add(2, 368, 6, 390, 37, texture_Ninja);
+	sprites->add(3, 400, 6, 420, 37, texture_Ninja);
+#pragma endregion
+#pragma region idle
+	sprites->add(0, 3, 5, 20, 37, texture_Ninja);
+#pragma endregion
+#pragma region jump
+	sprites->add(4, 142, 53, 158, 75, texture_Ninja);
+	sprites->add(5, 166, 55, 188, 71, texture_Ninja);
+	sprites->add(6, 194, 53, 210, 75, texture_Ninja);
+	sprites->add(7, 217, 55, 239, 71, texture_Ninja);
 #pragma endregion
 
 	/*sprites->add(10011, 186, 154, 199, 181, texture_Ninja);
@@ -97,25 +106,33 @@ void LoadResource() {
 	LPANIMATION ani;
 #pragma region run
 	ani = new CAnimation(100);
-	ani->add(10001);
-	ani->add(10002);
-	ani->add(10003);
-	animations->Add(500, ani);
+	ani->add(1);
+	ani->add(2);
+	ani->add(3);
+	animations->Add(1, ani);
+#pragma endregion
+#pragma region idle
+	ani = new CAnimation(100);
+	ani->add(0);
+	animations->Add(0, ani);
 #pragma endregion
 
+#pragma region jump
 	ani = new CAnimation(100);
-	ani->add(10011);
-	ani->add(10012);
-	ani->add(10013);
-	animations->Add(501, ani);
-
-	ninja = new GameObject(0.07f);
-	ninja->AddAnimation(500);
+	ani->add(4);
+	ani->add(5);
+	ani->add(6);
+	ani->add(7);
+	animations->Add(2, ani);
+#pragma endregion
+	ninja = new CNinja();
+	for (int i = 0; i < 2; i++)
+		CNinja::AddAnimation(i);
 	/*ninja->AddAnimation(501);*/
 	//ninja->AddAnimation(510);
 
 
-	ninja->SetPosition(10.0f, 250.0f);
+	ninja->SetPosition(10.0f, 100.0f);
 }
 #pragma endregion
 
@@ -218,6 +235,9 @@ int Run()
 		if (dt >= tickPerFrame)
 		{
 			frameStart = now;
+
+			game->ProcessKeyboard();
+
 			Update(dt);
 			Render();
 		}
@@ -232,8 +252,13 @@ int Run()
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpStrCmdLine,int nShowCmd)
 {
 	HWND hWnd = CreateGameWindow(hInstance, nShowCmd, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	game = Cgame::GetInstance(); //mot singleton pattern de dam bao chi co mot game duy nhat
 	game->Init(hWnd);
+
+	keyHandler = new CSampleKeyHandler();
+	game->InitKeyboard(keyHandler);
+
 	LoadResource();
 	Run();
 	

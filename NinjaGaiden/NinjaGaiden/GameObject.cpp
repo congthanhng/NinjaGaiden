@@ -6,7 +6,7 @@
 
 vector<LPANIMATION> GameObject::animations;
 
-GameObject::GameObject(int nx)
+GameObject::GameObject()
 {
 	x = y = 0;
 	vx = vy = 0;
