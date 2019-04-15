@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "Textures.h"
 #include "Sprites.h"
+#include "Ninja.h"
 
 #define WINDOW_CLASS_NAME L"NinjaGaiden"
 #define MAIN_WINDOW_TITLE L"Ninja Gaiden"
@@ -32,6 +33,25 @@ class CSampleKeyHandler : public CKeyEventHandler {
 };
 
 CSampleKeyHandler * keyHandler;
+
+void CSampleKeyHandler::OnKeyDown(int keycode) {
+	switch (keycode) {
+	case DIK_SPACE:
+		ninja->SetState(NINJA_STATE_JUMP);
+		break;
+	}
+}
+
+void CSampleKeyHandler::OnKeyUp(int keycode) {
+	
+}
+
+void CSampleKeyHandler::KeyState(BYTE *state) {
+	if (game->IsKeyDown(DIK_RIGHT))ninja->SetState(NINJA_STATE_WALKING_RIGHT);
+	else if (game->IsKeyDown(DIK_LEFT))ninja->SetState(NINJA_STATE_WALKING_LEFT);
+	else ninja->SetState(NINJA_STATE_IDLE);
+}
+
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
