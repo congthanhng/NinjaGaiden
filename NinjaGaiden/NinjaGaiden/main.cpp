@@ -35,11 +35,11 @@ class CSampleKeyHandler : public CKeyEventHandler {
 CSampleKeyHandler * keyHandler;
 
 void CSampleKeyHandler::OnKeyDown(int keycode) {
-	switch (keycode) {
+	/*switch (keycode) {
 	case DIK_SPACE:
 		ninja->SetState(NINJA_STATE_JUMP);
 		break;
-	}
+	}*/
 }
 
 void CSampleKeyHandler::OnKeyUp(int keycode) {
@@ -47,6 +47,8 @@ void CSampleKeyHandler::OnKeyUp(int keycode) {
 }
 
 void CSampleKeyHandler::KeyState(BYTE *state) {
+	if (game->IsKeyDown(DIK_SPACE))ninja->SetState(NINJA_STATE_JUMP);
+	else
 	if (game->IsKeyDown(DIK_RIGHT))ninja->SetState(NINJA_STATE_WALKING_RIGHT);
 	else if (game->IsKeyDown(DIK_LEFT))ninja->SetState(NINJA_STATE_WALKING_LEFT);
 	else ninja->SetState(NINJA_STATE_IDLE);
@@ -127,7 +129,7 @@ void LoadResource() {
 #pragma endregion
 
 	ninja = new CNinja();
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 		CNinja::AddAnimation(i);
 	/*ninja->AddAnimation(501);*/
 	//ninja->AddAnimation(510);

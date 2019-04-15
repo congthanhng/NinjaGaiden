@@ -16,9 +16,10 @@ void CNinja::Update(DWORD dt) {
 	if (vx < 0 && x < 0)x = 0;
 }
 
-void CNinja::Render() {
+void CNinja::Render() { 
 	int ani;
-	if (vx != 0)ani = NINJA_ANI_WALKING;
+	if (vy != 0) ani = NINJA_ANI_JUMP;
+	else if (vx != 0) ani = NINJA_ANI_WALKING;
 	else ani = NINJA_ANI_IDLE;
 	/*if (vx == 0) {
 		if (nx > 0) {

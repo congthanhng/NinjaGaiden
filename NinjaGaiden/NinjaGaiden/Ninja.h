@@ -12,6 +12,7 @@
 
 #define NINJA_ANI_IDLE		0	
 #define NINJA_ANI_WALKING	1
+#define NINJA_ANI_JUMP		2
 
 class CNinja:public GameObject
 {
