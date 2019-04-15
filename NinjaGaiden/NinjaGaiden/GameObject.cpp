@@ -15,7 +15,7 @@ GameObject::GameObject()
 };
 void GameObject::Update(DWORD dt) {
 	x += vx * dt;
-	y += vx * dt;
+	y += vy * dt;
 	//if (vx > 0 && x > 290) {
 	//	vx = -vx;
 	//	nx = -1;
