@@ -10,10 +10,8 @@
 #define NINJA_STATE_WALKING_LEFT	2
 #define NINJA_STATE_JUMP			3
 
-#define NINJA_ANI_IDLE_RIGHT		0
-#define NINJA_ANI_IDLE_LEFT			1
-#define NINJA_ANI_WALKING_RIGHT		2
-#define NINJA_ANI_WALKING_LEFT		3
+#define NINJA_ANI_IDLE		0	
+#define NINJA_ANI_WALKING	1
 
 class CNinja:public GameObject
 {

@@ -125,6 +125,7 @@ void LoadResource() {
 	ani->add(7);
 	animations->Add(2, ani);
 #pragma endregion
+
 	ninja = new CNinja();
 	for (int i = 0; i < 2; i++)
 		CNinja::AddAnimation(i);
