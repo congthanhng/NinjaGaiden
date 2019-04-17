@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #define NINJA_WALKING_SPEED		0.1f
-#define NINJA_JUMP_SPEED_Y		0.2f
+#define NINJA_JUMP_SPEED_Y		0.25f
 #define NINJA_GRAVITY			0.01f
 
 #define NINJA_STATE_IDLE			0	

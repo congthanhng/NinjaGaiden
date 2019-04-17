@@ -57,6 +57,7 @@ void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 {
 	D3DXVECTOR3 p(x, y, 0);
 	D3DXVECTOR3 c((float)((right - left) / 2),(float)( (bottom - top) / 2), 0.0f);
+	D3DXVECTOR3 leftbot(0,(bottom-top), 0.0f);
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -84,13 +85,13 @@ void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 
 		//D3DXVECTOR3 center((float)(right-left) / 2,(float)(bottom-top) / 2, 0);
 		spriteHandler->SetTransform(&matCombined);
-		spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB(255, 163, 177));
+		spriteHandler->Draw(texture, &r, &leftbot, &p, D3DCOLOR_XRGB(255, 163, 177));
 
 		spriteHandler->SetTransform(&oldMatrix); // trở về trang thái ban đầu
 		return;
 	}
 	else
-	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB(255, 163, 177));
+	spriteHandler->Draw(texture, &r, &leftbot, &p, D3DCOLOR_XRGB(255, 163, 177));
 	
 }
 
