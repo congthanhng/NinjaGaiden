@@ -6,9 +6,12 @@ void CNinja::Update(DWORD dt) {
 
 	GameObject::Update(dt);	
 
+	//simple fall down
+	if(isJumping)
 	vy += NINJA_GRAVITY;
-	if (y > 100) {
-		vy = 0; y = 100.0f;
+	if (y > 250) {
+		vy = 0; y = 250.0f;
+		isJumping = false;
 	}
 
 	//simple sreen egle collision
@@ -18,9 +21,10 @@ void CNinja::Update(DWORD dt) {
 
 void CNinja::Render() { 
 	int ani;
-	if (vy != 0) ani = NINJA_ANI_JUMP;
+	if (isJumping) ani = NINJA_ANI_JUMP;
+	else if (isSitting) ani = NINJA_ANI_SIT;
 	else if (vx != 0) ani = NINJA_ANI_WALKING;
-	else ani = NINJA_ANI_IDLE;
+		else ani = NINJA_ANI_IDLE;
 	/*if (vx == 0) {
 		if (nx > 0) {
 			ani = NINJA_ANI_IDLE_RIGHT;
@@ -46,7 +50,11 @@ void CNinja::SetState(int state) {
 		nx = -1;
 		break;
 	case NINJA_STATE_JUMP:
-		if (y == 100) vy = -NINJA_JUMP_SPEED_Y;
+		isJumping = true;
+		if (y == 250) vy = -NINJA_JUMP_SPEED_Y;
+		break;
+	case NINJA_STATE_SIT:
+		isSitting = true;
 		break;
 	case NINJA_STATE_IDLE:
 		vx = 0;

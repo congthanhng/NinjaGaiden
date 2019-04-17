@@ -48,7 +48,7 @@ public:
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int vt);
 
 	void InitKeyboard(LPKEYEVENTHANDLER handler); //thiet lap va khoi tao Input va Keyboard
-	int IsKeyDown(int keycode);		//kiem tra neu key dc nhan
+	bool IsKeyDown(int keycode);		//kiem tra neu key dc nhan
 	void ProcessKeyboard(); //qua trinh phim
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }

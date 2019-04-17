@@ -20,7 +20,7 @@
 #define TEXTURE_NINJA L"RyuHayabusa.png"
 #define TRANSPARENT_COLOR D3DCOLOR_XRGB(255, 163, 177)
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255,0,0)
-#define MAX_FRAME_RATE 60
+#define MAX_FRAME_RATE 100
 #define ID_TEXT_NINJA 10
 
 Cgame * game;
@@ -35,19 +35,28 @@ class CSampleKeyHandler : public CKeyEventHandler {
 CSampleKeyHandler * keyHandler;
 
 void CSampleKeyHandler::OnKeyDown(int keycode) {
-	/*switch (keycode) {
+	switch (keycode) {
 	case DIK_SPACE:
 		ninja->SetState(NINJA_STATE_JUMP);
 		break;
-	}*/
+	}
 }
 
 void CSampleKeyHandler::OnKeyUp(int keycode) {
-	
+	switch (keycode) {
+	case DIK_DOWN:
+		ninja->SetState(NINJA_STATE_IDLE);
+		ninja->SetisSitting(false);
+		break;
+	}
 }
 
 void CSampleKeyHandler::KeyState(BYTE *state) {
 	if (game->IsKeyDown(DIK_SPACE))ninja->SetState(NINJA_STATE_JUMP);
+	else
+	if (game->IsKeyDown(DIK_DOWN)) {
+		ninja->SetState(NINJA_STATE_SIT); 
+	}
 	else
 	if (game->IsKeyDown(DIK_RIGHT))ninja->SetState(NINJA_STATE_WALKING_RIGHT);
 	else if (game->IsKeyDown(DIK_LEFT))ninja->SetState(NINJA_STATE_WALKING_LEFT);
@@ -82,20 +91,27 @@ void LoadResource() {
 
 	LPDIRECT3DTEXTURE9 texture_Ninja = Textures->get(ID_TEXT_NINJA);
 
+
 	/*xac dinh cac frame cua texture*/
-#pragma region run
-	sprites->add(1, 339, 6, 359, 37, texture_Ninja);
-	sprites->add(2, 368, 6, 390, 37, texture_Ninja);
-	sprites->add(3, 400, 6, 420, 37, texture_Ninja);
-#pragma endregion
 #pragma region idle
 	sprites->add(0, 3, 5, 20, 37, texture_Ninja);
 #pragma endregion
+
+#pragma region run
+	sprites->add(10, 339, 6, 359, 37, texture_Ninja);
+	sprites->add(11, 368, 6, 390, 37, texture_Ninja);
+	sprites->add(12, 400, 6, 420, 37, texture_Ninja);
+#pragma endregion
+
 #pragma region jump
-	sprites->add(4, 142, 53, 158, 75, texture_Ninja);
-	sprites->add(5, 166, 55, 188, 71, texture_Ninja);
-	sprites->add(6, 194, 53, 210, 75, texture_Ninja);
-	sprites->add(7, 217, 55, 239, 71, texture_Ninja);
+	sprites->add(20, 142, 53, 158, 75, texture_Ninja);
+	sprites->add(21, 166, 55, 188, 71, texture_Ninja);
+	sprites->add(22, 194, 53, 210, 75, texture_Ninja);
+	sprites->add(23, 217, 55, 239, 71, texture_Ninja);
+#pragma endregion
+
+#pragma region sit
+	sprites->add(30, 3, 52, 20, 76, texture_Ninja);
 #pragma endregion
 
 	/*sprites->add(10011, 186, 154, 199, 181, texture_Ninja);
@@ -106,36 +122,43 @@ void LoadResource() {
 	ninja->SetPosition(10.0f, 130.0f);*/
 	//add sprite to animations
 	LPANIMATION ani;
-#pragma region run
-	ani = new CAnimation(100);
-	ani->add(1);
-	ani->add(2);
-	ani->add(3);
-	animations->Add(1, ani);
-#pragma endregion
 #pragma region idle
 	ani = new CAnimation(100);
 	ani->add(0);
 	animations->Add(0, ani);
 #pragma endregion
 
+#pragma region run
+	ani = new CAnimation(100);
+	ani->add(10);
+	ani->add(11);
+	ani->add(12);
+	animations->Add(1, ani);
+#pragma endregion
+
 #pragma region jump
 	ani = new CAnimation(100);
-	ani->add(4);
-	ani->add(5);
-	ani->add(6);
-	ani->add(7);
+	ani->add(20);
+	ani->add(21);
+	ani->add(22);
+	ani->add(23);
 	animations->Add(2, ani);
 #pragma endregion
 
+#pragma region sit
+	ani = new CAnimation(100);
+	ani->add(30);
+	animations->Add(3, ani);
+#pragma endregion 
+
 	ninja = new CNinja();
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 		CNinja::AddAnimation(i);
 	/*ninja->AddAnimation(501);*/
 	//ninja->AddAnimation(510);
 
 
-	ninja->SetPosition(10.0f, 100.0f);
+	ninja->SetPosition(10.0f, 250.0f);
 }
 #pragma endregion
 
