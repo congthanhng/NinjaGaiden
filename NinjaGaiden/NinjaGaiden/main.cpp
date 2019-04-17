@@ -19,7 +19,7 @@
 
 #define TEXTURE_NINJA L"RyuHayabusa.png"
 #define TRANSPARENT_COLOR D3DCOLOR_XRGB(255, 163, 177)
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(255,0,0)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(150,150,150)
 #define MAX_FRAME_RATE 100
 #define ID_TEXT_NINJA 10
 
@@ -78,6 +78,7 @@ void CSampleKeyHandler::KeyState(BYTE *state) {
 		return;
 	}
 	ninja->SetState(NINJA_STATE_IDLE);
+	ninja->SetisSitting(false);
 }
 
 

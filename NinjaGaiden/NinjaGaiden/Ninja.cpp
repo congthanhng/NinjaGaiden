@@ -7,6 +7,7 @@ void CNinja::Update(DWORD dt) {
 	GameObject::Update(dt);	
 
 	//simple fall down
+	
 	if(isJumping)
 	vy += NINJA_GRAVITY;
 	if (y > 250) {
@@ -55,8 +56,10 @@ void CNinja::SetState(int state) {
 		break;
 	case NINJA_STATE_SIT:
 		isSitting = true;
+		vx = vy = 0;
 		break;
 	case NINJA_STATE_IDLE:
+		
 		vx = 0;
 		break;
 
