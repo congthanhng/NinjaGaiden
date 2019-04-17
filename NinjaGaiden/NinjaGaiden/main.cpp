@@ -52,15 +52,32 @@ void CSampleKeyHandler::OnKeyUp(int keycode) {
 }
 
 void CSampleKeyHandler::KeyState(BYTE *state) {
-	if (game->IsKeyDown(DIK_SPACE))ninja->SetState(NINJA_STATE_JUMP);
-	else
-	if (game->IsKeyDown(DIK_DOWN)) {
-		ninja->SetState(NINJA_STATE_SIT); 
+	if (game->IsKeyDown(DIK_SPACE)) {
+		ninja->SetisSitting(false);
+
+		ninja->SetState(NINJA_STATE_JUMP);
+		return;
 	}
-	else
-	if (game->IsKeyDown(DIK_RIGHT))ninja->SetState(NINJA_STATE_WALKING_RIGHT);
-	else if (game->IsKeyDown(DIK_LEFT))ninja->SetState(NINJA_STATE_WALKING_LEFT);
-	else ninja->SetState(NINJA_STATE_IDLE);
+	
+	if (game->IsKeyDown(DIK_RIGHT)) {
+		ninja->SetisSitting(false);
+
+		ninja->SetState(NINJA_STATE_WALKING_RIGHT); 
+		return;
+	}
+	else if (game->IsKeyDown(DIK_LEFT)) { 
+		ninja->SetisSitting(false);
+
+		ninja->SetState(NINJA_STATE_WALKING_LEFT); 
+		return;
+	}
+	if (game->IsKeyDown(DIK_DOWN)) {
+		if (ninja->GetisJumping()) return;
+
+		ninja->SetState(NINJA_STATE_SIT);
+		return;
+	}
+	ninja->SetState(NINJA_STATE_IDLE);
 }
 
 
