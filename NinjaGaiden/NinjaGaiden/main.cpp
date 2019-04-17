@@ -104,10 +104,14 @@ void LoadResource() {
 #pragma endregion
 
 #pragma region jump
-	sprites->add(20, 142, 53, 158, 75, texture_Ninja);
+	sprites->add(20, 139, 53, 161, 75, texture_Ninja);
+	sprites->add(21, 166, 53, 188, 75, texture_Ninja);
+	sprites->add(22, 191, 53, 213, 75, texture_Ninja);
+	sprites->add(23, 217, 53, 239, 75, texture_Ninja);
+	/*sprites->add(20, 142, 53, 158, 75, texture_Ninja);
 	sprites->add(21, 166, 55, 188, 71, texture_Ninja);
 	sprites->add(22, 194, 53, 210, 75, texture_Ninja);
-	sprites->add(23, 217, 55, 239, 71, texture_Ninja);
+	sprites->add(23, 217, 55, 239, 71, texture_Ninja);*/
 #pragma endregion
 
 #pragma region sit

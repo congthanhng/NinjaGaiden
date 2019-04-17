@@ -90,7 +90,7 @@ void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 		return;
 	}
 	else
-	spriteHandler->Draw(texture, &r, &c, &p, D3DCOLOR_XRGB(255, 163, 177));
+	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB(255, 163, 177));
 	
 }
 
