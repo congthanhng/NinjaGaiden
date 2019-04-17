@@ -10,11 +10,13 @@
 #define NINJA_STATE_WALKING_LEFT	12
 #define NINJA_STATE_JUMP			20
 #define NINJA_STATE_SIT				30
+#define NINJA_STATE_HIT				40
 
 #define NINJA_ANI_IDLE		0	
 #define NINJA_ANI_WALKING	1
 #define NINJA_ANI_JUMP		2
 #define NINJA_ANI_SIT		3
+#define NINJA_ANI_HIT		4
 
 class CNinja:public GameObject
 {

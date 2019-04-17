@@ -52,7 +52,7 @@ void CSampleKeyHandler::OnKeyUp(int keycode) {
 }
 
 void CSampleKeyHandler::KeyState(BYTE *state) {
-	if (game->IsKeyDown(DIK_SPACE)) {
+	if (game->IsKeyDown(DIK_X)) {
 		ninja->SetisSitting(false);
 
 		ninja->SetState(NINJA_STATE_JUMP);
@@ -75,6 +75,10 @@ void CSampleKeyHandler::KeyState(BYTE *state) {
 		if (ninja->GetisJumping()) return;
 
 		ninja->SetState(NINJA_STATE_SIT);
+		return;
+	}
+	if (game->IsKeyDown(DIK_Z)) {
+		ninja->SetState(NINJA_STATE_HIT);
 		return;
 	}
 	ninja->SetState(NINJA_STATE_IDLE);
@@ -136,6 +140,12 @@ void LoadResource() {
 	sprites->add(30, 3, 52, 20, 76, texture_Ninja);
 #pragma endregion
 
+#pragma region hit
+	sprites->add(40, 42, 6, 60, 37, texture_Ninja);
+	sprites->add(41, 66, 8, 106, 37, texture_Ninja);
+	sprites->add(42, 111, 8, 140, 37, texture_Ninja);
+#pragma endregion 
+
 	/*sprites->add(10011, 186, 154, 199, 181, texture_Ninja);
 	sprites->add(10012, 155, 154, 170, 181, texture_Ninja);
 	sprites->add(10013, 125, 154, 140, 181, texture_Ninja);*/
@@ -173,8 +183,16 @@ void LoadResource() {
 	animations->Add(3, ani);
 #pragma endregion 
 
+#pragma region hit
+	ani = new CAnimation(100);
+	ani->add(40);
+	ani->add(41);
+	ani->add(42);
+	animations->Add(4, ani);
+#pragma endregion
+
 	ninja = new CNinja();
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 		CNinja::AddAnimation(i);
 	/*ninja->AddAnimation(501);*/
 	//ninja->AddAnimation(510);
