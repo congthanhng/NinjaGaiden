@@ -11,12 +11,14 @@
 #define NINJA_STATE_JUMP			20
 #define NINJA_STATE_SIT				30
 #define NINJA_STATE_HIT				40
+#define NINJA_STATE_SITHIT			50
 
 #define NINJA_ANI_IDLE		0	
 #define NINJA_ANI_WALKING	1
 #define NINJA_ANI_JUMP		2
 #define NINJA_ANI_SIT		3
 #define NINJA_ANI_HIT		4
+#define NINJA_ANI_SITHIT	5
 
 class CNinja:public GameObject
 {
@@ -24,6 +26,7 @@ class CNinja:public GameObject
 	bool isRunning;
 	bool isHitting;
 	bool isSitting;
+	bool isSitHit;
 public:
 	void SetisJumping(bool isJumping) { this->isJumping = isJumping; }
 	bool GetisJumping() { return this->isJumping; }
@@ -36,6 +39,9 @@ public:
 
 	void SetisHitting(bool isHitting) { this->isHitting = isHitting; }
 	bool GetisHiitting() { return this->isHitting; }
+
+	void SetisSitHit(bool isSitHit) { this->isSitHit = isSitHit; }
+	bool GetisSitHit() { return this->isSitHit; }
 
 	void Update(DWORD dt);
 	void Render();

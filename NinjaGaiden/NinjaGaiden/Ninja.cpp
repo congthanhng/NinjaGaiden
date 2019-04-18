@@ -25,7 +25,10 @@ void CNinja::Render() {
 	if(isHitting)ani= NINJA_ANI_HIT;
 	else
 	if (isJumping) ani = NINJA_ANI_JUMP;
-	else if (isSitting) ani = NINJA_ANI_SIT;
+	else if (isSitting) {
+		if (isSitHit)ani = NINJA_ANI_SITHIT;
+		else ani = NINJA_ANI_SIT;
+	}
 	else if (vx != 0) ani = NINJA_ANI_WALKING;
 		else ani = NINJA_ANI_IDLE;
 	/*if (vx == 0) {
@@ -62,6 +65,9 @@ void CNinja::SetState(int state) {
 		break;
 	case NINJA_STATE_HIT:
 		isHitting = true;
+		break;
+	case NINJA_STATE_SITHIT:
+		isSitHit = true;
 		break;
 	case NINJA_STATE_IDLE:
 		
