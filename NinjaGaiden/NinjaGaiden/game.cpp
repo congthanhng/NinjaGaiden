@@ -54,7 +54,7 @@ void Cgame::Init(HWND hWnd) {
 //	spriteHandler->Draw(texture, NULL, NULL, &p, D3DCOLOR_XRGB(255, 163, 177));
 //	
 //}
-void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int nx)
+void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int nx,int xx,int yy)
 {
 	D3DXVECTOR3 p(x, y, 0);
 	D3DXVECTOR3 pnx(x+(right-left), y, 0);
@@ -72,7 +72,7 @@ void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	
 
 	if (nx<0){
-
+		
 		D3DXMATRIX oldMatrix; //trang thai ban dau
 		spriteHandler->GetTransform(&oldMatrix);
 
@@ -88,9 +88,10 @@ void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 		D3DXMatrixScaling(&matScale, -1.0f, 1.0f, .0f);	//lat theo truc ox
 		matCombined *= matScale;
 
-		D3DXMatrixTranslation(&matTranslate, x*2 - (right - left), 0, 0.0f); //vì hình ảnh sau scale đang nằm trên -ox lên phải x*2+ width để trở về vị trí x ban đầu khi chưa scale
+		D3DXMatrixTranslation(&matTranslate, x*2 , 0, 0.0f); //vì hình ảnh sau scale đang nằm trên -ox lên phải x*2 để trở về vị trí x ban đầu khi chưa scale
 		matCombined *= matTranslate;
-
+		D3DXMatrixTranslation(&matTranslate, xx, 0, 0.0f); //vì hình ảnh sau scale đang nằm trên -ox lên phải x*2 để trở về vị trí x ban đầu khi chưa scale
+		matCombined *= matTranslate;
 		/*D3DXMatrixTranslation(&matTranslate,(right - left), 0, 0.0f);
 		matCombined *= matTranslate;*/
 		//D3DXVECTOR3 center((float)(right-left) / 2,(float)(bottom-top) / 2, 0);

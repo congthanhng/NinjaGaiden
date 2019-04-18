@@ -2,17 +2,19 @@
 #include "Game.h"
 
 
-CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 texture) {
+CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 texture,int xx,int yy) {
 	this->id = id;
 	this->left = left;
 	this->top = top;
 	this->right = right;
 	this->bottom = bottom;
 	this->texture = texture;
+	this->xx = xx;
+	this->yy = yy;
 }
 void CSprite::Draw(float x,float y,int nx){
 	Cgame *game = Cgame::GetInstance();
-	game->Draw(x, y, texture, left, top, right, bottom,nx);
+	game->Draw(x, y, texture, left, top, right, bottom,nx,xx,yy);
 }
 CSprites *CSprites::_Instance = NULL;
 
@@ -24,8 +26,8 @@ CSprites *CSprites::GetInstance() {
 	return _Instance;
 }
 
-void CSprites::add(int id, int x_sprite, int y_sprite, int width_sprite, int heigh_sprite, LPDIRECT3DTEXTURE9 texture) {
-	LPSprite s = new CSprite(id, x_sprite, y_sprite, width_sprite, heigh_sprite, texture);
+void CSprites::add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 texture,int xx,int yy) {
+	LPSprite s = new CSprite(id, left, top, right, bottom, texture,xx,yy);
 	sprites[id] = s;
 }
 LPSprite CSprites::get(int id) {

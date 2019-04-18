@@ -38,11 +38,11 @@ CSampleKeyHandler * keyHandler;
 void CSampleKeyHandler::OnKeyDown(int KeyCode) {
 	OutputDebugString(L"[INFO] KeyDown\n");
 	switch (KeyCode) {
-	case DIK_SPACE:
+	case DIK_X:
 		ninja->SetState(NINJA_STATE_JUMP);
 		break;
-	case DIK_C:
-		ninja->SetState(NINJA_STATE_WALKING_RIGHT);
+	case DIK_Z:
+		ninja->SetState(NINJA_STATE_HIT);
 		break;
 	}
 }
@@ -59,12 +59,12 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode) {
 
 void CSampleKeyHandler::KeyState(BYTE *state) {
 	
-	if (game->IsKeyDown(DIK_X)) {
+	/*if (game->IsKeyDown(DIK_X)) {
 		ninja->SetisSitting(false);
 		ninja->SetisHitting(false);
 		ninja->SetState(NINJA_STATE_JUMP);
 		return;
-	}
+	}*/
 	
 	if (game->IsKeyDown(DIK_RIGHT)) {
 		ninja->SetisSitting(false);
@@ -84,10 +84,7 @@ void CSampleKeyHandler::KeyState(BYTE *state) {
 		ninja->SetState(NINJA_STATE_SIT);
 		return;
 	}
-	if (game->IsKeyDown(DIK_Z)) {
-		ninja->SetState(NINJA_STATE_HIT);
-		return;
-	}
+	
 	ninja->SetState(NINJA_STATE_IDLE);
 	ninja->SetisSitting(false);
 }
@@ -120,20 +117,20 @@ void LoadResource() {
 
 	/*xac dinh cac frame cua texture*/
 #pragma region idle
-	sprites->add(0, 3, 5, 20, 37, texture_Ninja);
+	sprites->add(0, 3, 5, 3+17, 5+32, texture_Ninja,0,0);
 #pragma endregion
 
 #pragma region run
-	sprites->add(10, 339, 6, 359, 37, texture_Ninja);
-	sprites->add(11, 368, 6, 390, 37, texture_Ninja);
-	sprites->add(12, 400, 6, 420, 37, texture_Ninja);
+	sprites->add(10, 339, 6, 339+20, 6 + 31, texture_Ninja, 0, 0);
+	sprites->add(11, 368, 6, 368+22, 6 + 31, texture_Ninja, -2, 0);
+	sprites->add(12, 400, 6, 400+20, 6 + 31, texture_Ninja, 0, 0);
 #pragma endregion
 
 #pragma region jump
-	sprites->add(20, 139, 53, 161, 75, texture_Ninja);
-	sprites->add(21, 166, 53, 188, 75, texture_Ninja);
-	sprites->add(22, 191, 53, 213, 75, texture_Ninja);
-	sprites->add(23, 217, 53, 239, 75, texture_Ninja);
+	sprites->add(20, 139, 53, 161, 75, texture_Ninja, 0, 0);
+	sprites->add(21, 166, 53, 188, 75, texture_Ninja, 0, 0);
+	sprites->add(22, 191, 53, 213, 75, texture_Ninja, 0, 0);
+	sprites->add(23, 217, 53, 239, 75, texture_Ninja, 0, 0);
 	/*sprites->add(20, 142, 53, 158, 75, texture_Ninja);
 	sprites->add(21, 166, 55, 188, 71, texture_Ninja);
 	sprites->add(22, 194, 53, 210, 75, texture_Ninja);
@@ -141,13 +138,13 @@ void LoadResource() {
 #pragma endregion
 
 #pragma region sit
-	sprites->add(30, 3, 52, 20, 76, texture_Ninja);
+	sprites->add(30, 3, 52, 20, 76, texture_Ninja, 0, 0);
 #pragma endregion
 
 #pragma region hit
-	sprites->add(40, 42, 6, 60, 37, texture_Ninja);
-	sprites->add(41, 66, 8, 106, 37, texture_Ninja);
-	sprites->add(42, 111, 8, 140, 37, texture_Ninja);
+	sprites->add(40, 42, 6, 42 + 18, 31 + 6 , texture_Ninja, -1, 0);
+	sprites->add(41, 66, 8, 66 + 40, 8 + 29, texture_Ninja, -23, 0);
+	sprites->add(42, 111, 8, 111 + 29 ,8 + 29, texture_Ninja, -12, 0);
 #pragma endregion 
 
 	/*sprites->add(10011, 186, 154, 199, 181, texture_Ninja);

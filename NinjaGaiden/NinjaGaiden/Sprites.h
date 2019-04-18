@@ -13,10 +13,13 @@ class CSprite{
 	int right;
 	int bottom;
 
+	int xx; //do xe dich sprite cua x
+	int yy; //do xe dich sprite cua y
+
 	LPDIRECT3DTEXTURE9 texture;
 
 public:
-	CSprite(int id,int left, int top, int right, int bottom,LPDIRECT3DTEXTURE9 texture);
+	CSprite(int id,int left, int top, int right, int bottom,LPDIRECT3DTEXTURE9 texture,int xx,int yy);
 	void Draw(float x, float y,int nx);
 
 };
@@ -30,7 +33,7 @@ class CSprites
 
 public:
 
-	void add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 texture);
+	void add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 texture,int xx,int yy);
 	LPSprite get(int id);
 
 	static CSprites * GetInstance();
