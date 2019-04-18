@@ -1,5 +1,6 @@
 ﻿#include "game.h"
 
+
 Cgame  *Cgame::_instance = NULL;
 
 /*khoi tao device de ve len do*/
@@ -46,7 +47,7 @@ void Cgame::Init(HWND hWnd) {
 
 	/*khoi tao ve sprite*/
 	D3DXCreateSprite(d3ddv, &spriteHandler);
-
+	OutputDebugString(L"[INFO] InitGame done;\n");
 }
 //void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture) {
 //	D3DXVECTOR3 p(x, y, 0);
@@ -56,13 +57,19 @@ void Cgame::Init(HWND hWnd) {
 void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int nx)
 {
 	D3DXVECTOR3 p(x, y, 0);
-	D3DXVECTOR3 c((float)((right - left) / 2),(float)( (bottom - top) / 2), 0.0f);
-	D3DXVECTOR3 leftbot(0,(bottom-top), 0.0f);
+	D3DXVECTOR3 pnx(x+(right-left), y, 0);
 	RECT r;
 	r.left = left;
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
+
+	//D3DXVECTOR3 p2(x - (right - left), y, 0);
+	D3DXVECTOR3 c((float)((right - left) / 2),(float)( (bottom - top) / 2), 0.0f);
+	D3DXVECTOR3 leftbot(0,(bottom-top), 0.0f);
+	D3DXVECTOR3 righbot((right - left), (bottom - top), 0.0f);
+	D3DXVECTOR3 topright((right - left), 0, 0.0f);
+	
 
 	if (nx<0){
 
@@ -75,17 +82,20 @@ void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 		D3DXMatrixIdentity(&matCombined);
 
 		D3DXMATRIX matScale;
+
 		D3DXMATRIX matTranslate;
 
 		D3DXMatrixScaling(&matScale, -1.0f, 1.0f, .0f);	//lat theo truc ox
 		matCombined *= matScale;
 
-		D3DXMatrixTranslation(&matTranslate, x*2 + (right - left), 0, 0.0f); //vì hình ảnh sau scale đang nằm trên -ox lên phải x*2+ width để trở về vị trí x ban đầu khi chưa scale
+		D3DXMatrixTranslation(&matTranslate, x*2 - (right - left), 0, 0.0f); //vì hình ảnh sau scale đang nằm trên -ox lên phải x*2+ width để trở về vị trí x ban đầu khi chưa scale
 		matCombined *= matTranslate;
 
+		/*D3DXMatrixTranslation(&matTranslate,(right - left), 0, 0.0f);
+		matCombined *= matTranslate;*/
 		//D3DXVECTOR3 center((float)(right-left) / 2,(float)(bottom-top) / 2, 0);
 		spriteHandler->SetTransform(&matCombined);
-		spriteHandler->Draw(texture, &r, &leftbot, &p, D3DCOLOR_XRGB(255, 163, 177));
+		spriteHandler->Draw(texture, &r, &righbot, &p, D3DCOLOR_XRGB(255, 163, 177));
 
 		spriteHandler->SetTransform(&oldMatrix); // trở về trang thái ban đầu
 		return;
@@ -96,14 +106,15 @@ void Cgame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 }
 
 /*check key duoc nhan chua*/
-bool Cgame::IsKeyDown(int KeyCode)
+int Cgame::IsKeyDown(int KeyCode)
 {
 	return ((keyStates[KeyCode] & 0x80) > 0);
 }
 
 void Cgame::InitKeyboard(LPKEYEVENTHANDLER handler) {
 	/*khoi tao direct input*/
-	HRESULT hr = DirectInput8Create(
+	HRESULT 
+		hr = DirectInput8Create(
 		(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE), //lay hinstance cua main
 		DIRECTINPUT_VERSION, //luon luon dung parameter nay
 		IID_IDirectInput8, // version cuar direct input
@@ -145,7 +156,7 @@ void Cgame::InitKeyboard(LPKEYEVENTHANDLER handler) {
 	DIPROPDWORD dipdw;
 
 	dipdw.diph.dwSize = sizeof(DIPROPDWORD);
-	dipdw.diph.dwHeaderSize = sizeof(DIPROPDWORD);
+	dipdw.diph.dwHeaderSize = sizeof(DIPROPHEADER);
 	dipdw.diph.dwObj = 0;
 	dipdw.diph.dwHow = DIPH_DEVICE;
 	dipdw.dwData = KEYBOARD_BUFFER_SIZE;
@@ -206,13 +217,8 @@ void Cgame::ProcessKeyboard() {
 	}
 }
 
-Cgame::Cgame()
-{
-}
-void Cgame::Release() {
-	if (d3ddv != NULL) d3ddv->Release();
-	if (d3d != NULL) d3d->Release();
-}
+
+
 Cgame *Cgame::GetInstance() {
 	if (_instance == NULL) _instance = new Cgame();
 	return _instance;

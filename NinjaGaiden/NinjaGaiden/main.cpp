@@ -27,6 +27,7 @@ Cgame * game;
 CNinja *ninja;
 
 class CSampleKeyHandler : public CKeyEventHandler {
+
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
@@ -34,46 +35,52 @@ class CSampleKeyHandler : public CKeyEventHandler {
 
 CSampleKeyHandler * keyHandler;
 
-void CSampleKeyHandler::OnKeyDown(int keycode) {
-	switch (keycode) {
+void CSampleKeyHandler::OnKeyDown(int KeyCode) {
+	OutputDebugString(L"[INFO] KeyDown\n");
+	switch (KeyCode) {
 	case DIK_SPACE:
 		ninja->SetState(NINJA_STATE_JUMP);
+		break;
+	case DIK_C:
+		ninja->SetState(NINJA_STATE_WALKING_RIGHT);
 		break;
 	}
 }
 
-void CSampleKeyHandler::OnKeyUp(int keycode) {
-	switch (keycode) {
+void CSampleKeyHandler::OnKeyUp(int KeyCode) {
+	OutputDebugString(L"[INFO] KeyUp\n");
+	/*switch (keycode) {
 	case DIK_DOWN:
 		ninja->SetState(NINJA_STATE_IDLE);
 		ninja->SetisSitting(false);
 		break;
-	}
+	}*/
 }
 
 void CSampleKeyHandler::KeyState(BYTE *state) {
+	
 	if (game->IsKeyDown(DIK_X)) {
 		ninja->SetisSitting(false);
-
+		ninja->SetisHitting(false);
 		ninja->SetState(NINJA_STATE_JUMP);
 		return;
 	}
 	
 	if (game->IsKeyDown(DIK_RIGHT)) {
 		ninja->SetisSitting(false);
-
+		ninja->SetisHitting(false);
 		ninja->SetState(NINJA_STATE_WALKING_RIGHT); 
 		return;
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) { 
 		ninja->SetisSitting(false);
-
+		ninja->SetisHitting(false);
 		ninja->SetState(NINJA_STATE_WALKING_LEFT); 
 		return;
 	}
 	if (game->IsKeyDown(DIK_DOWN)) {
 		if (ninja->GetisJumping()) return;
-
+		ninja->SetisHitting(false);
 		ninja->SetState(NINJA_STATE_SIT);
 		return;
 	}
@@ -97,9 +104,6 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	return 0;
 }
 
-void Update(DWORD dt) {
-	ninja->Update(dt);
-}
 
 #pragma region LoadResource
 void LoadResource() {
@@ -202,6 +206,9 @@ void LoadResource() {
 }
 #pragma endregion
 
+void Update(DWORD dt) {
+	ninja->Update(dt);
+}
 void Render() {
 
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();

@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include "Windows.h"
-#include "d3d9.h"
-#include "d3dx9.h"
+
+#include <Windows.h>
+#include <d3d9.h>
+#include <d3dx9.h>
 
 
 #define DIRECTINPUT_VERSION 0x0800
@@ -14,8 +15,8 @@ class CKeyEventHandler
 {
 public:
 	virtual void KeyState(BYTE *state) = 0;   //key dang duoc giu
-	virtual void OnKeyDown(int keycode) = 0; //sau khi bat dau nhan xuong
-	virtual void OnKeyUp(int keycode) = 0; // sau khi tha ra
+	virtual void OnKeyDown(int Keycode) = 0; //sau khi bat dau nhan xuong
+	virtual void OnKeyUp(int Keycode) = 0; // sau khi tha ra
 };
 typedef CKeyEventHandler * LPKEYEVENTHANDLER;
 
@@ -41,23 +42,18 @@ private:
 	LPKEYEVENTHANDLER keyHandler;
 
 public:
+	void InitKeyboard(LPKEYEVENTHANDLER handler);
+	void Init(HWND hWnd);
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int nx);
 
-	void Init(HWND hWnd); //ham tao va thiet lap device va backbuffer
-	static Cgame *GetInstance();
-	
-	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int vt);
-
-	void InitKeyboard(LPKEYEVENTHANDLER handler); //thiet lap va khoi tao Input va Keyboard
-	bool IsKeyDown(int keycode);		//kiem tra neu key dc nhan
-	void ProcessKeyboard(); //qua trinh phim
+	int IsKeyDown(int KeyCode);
+	void ProcessKeyboard();
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
-	LPDIRECT3DSURFACE9 GetBackBuffer() { return this->backbuffer; }
+	LPDIRECT3DSURFACE9 GetBackBuffer() { return backbuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
-	Cgame();
-
-	void Release();
+	static Cgame * GetInstance();
 	~Cgame();
 };
 
