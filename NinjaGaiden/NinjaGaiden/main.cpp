@@ -7,6 +7,7 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Ninja.h"
+#include "Enemies.h"
 
 #define WINDOW_CLASS_NAME L"NinjaGaiden"
 #define MAIN_WINDOW_TITLE L"Ninja Gaiden"
@@ -18,13 +19,16 @@
 #define SCREEN_Y GetSystemMetrics(SM_CYSCREEN)
 
 #define TEXTURE_NINJA L"RyuHayabusa.png"
+#define TEXTURE_ENEMIES L"enemies.png"
 #define TRANSPARENT_COLOR D3DCOLOR_XRGB(255, 163, 177)
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(150,150,150)
-#define MAX_FRAME_RATE 100
+#define MAX_FRAME_RATE 80
 #define ID_TEXT_NINJA 10
+#define ID_TEXT_ENEMIES 20
 
 Cgame * game;
 CNinja *ninja;
+CEnemies *enemies;
 
 class CSampleKeyHandler : public CKeyEventHandler {
 
@@ -106,16 +110,20 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 void LoadResource() {
 	
 	CTextures *Textures = CTextures::GetInstance();
-
+	/*add texture ninja*/
 	Textures->Add(ID_TEXT_NINJA, TEXTURE_NINJA, TRANSPARENT_COLOR); //them vao danh sach cac texture
+
+	/*add texture enemies*/
+	Textures->Add(ID_TEXT_ENEMIES, TEXTURE_ENEMIES, TRANSPARENT_COLOR);
 
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 
 	LPDIRECT3DTEXTURE9 texture_Ninja = Textures->get(ID_TEXT_NINJA);
-
+	LPDIRECT3DTEXTURE9 texture_enemies = Textures->get(ID_TEXT_ENEMIES);
 
 	/*xac dinh cac frame cua texture*/
+#pragma region sprite_ninja
 #pragma region idle
 	sprites->add(0, 3, 5, 3+17, 5+32, texture_Ninja,0,0);
 #pragma endregion
@@ -152,6 +160,15 @@ void LoadResource() {
 	sprites->add(51, 58, 53, 58 + 39, 53+23, texture_Ninja, -22, 0);
 	sprites->add(52, 100, 53, 100 + 29, 53 + 23, texture_Ninja, -12, 0);
 #pragma endregion
+
+#pragma endregion
+
+	/*sprite enemies*/
+#pragma region sprite_enemies
+	sprites->add(100, 216, 60, 216 + 24, 60 + 32, texture_enemies, 0, 0);
+	sprites->add(101, 245, 60, 245 + 24, 60 + 32, texture_enemies, 0, 0);
+	sprites->add(102, 282, 52, 282 + 16, 52 + 40, texture_enemies, 0, 0);
+#pragma endregion
 	/*sprites->add(10011, 186, 154, 199, 181, texture_Ninja);
 	sprites->add(10012, 155, 154, 170, 181, texture_Ninja);
 	sprites->add(10013, 125, 154, 140, 181, texture_Ninja);*/
@@ -160,6 +177,7 @@ void LoadResource() {
 	ninja->SetPosition(10.0f, 130.0f);*/
 	//add sprite to animations
 	LPANIMATION ani;
+#pragma region ani_ninja
 #pragma region idle
 	ani = new CAnimation(100);
 	ani->add(0);
@@ -204,6 +222,7 @@ void LoadResource() {
 	ani->add(52);
 	animations->Add(5, ani);
 #pragma endregion
+
 	ninja = new CNinja();
 	for (int i = 0; i < 6; i++)
 		CNinja::AddAnimation(i);
@@ -212,11 +231,26 @@ void LoadResource() {
 
 
 	ninja->SetPosition(10.0f, 250.0f);
-}
+
 #pragma endregion
+#pragma region ani_enemies
+
+	ani = new CAnimation(100);
+	ani->add(100);
+	ani->add(101);
+	ani->add(102);
+	animations->Add(6, ani);
+	enemies = new CEnemies();
+	CEnemies::AddAnimation(6);
+	enemies->SetPosition(200.0f, 250.0f);
+
+#pragma endregion
+}
+
 
 void Update(DWORD dt) {
 	ninja->Update(dt);
+	enemies->Update(dt);
 }
 void Render() {
 
@@ -233,6 +267,7 @@ void Render() {
 		spritehandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		ninja->Render();
+		enemies->Render();
 
 		spritehandler->End();
 
